@@ -170,8 +170,8 @@
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
     // 🔐 Renseignez vos clés (laisser vide => mode offline sans multi):
-    const SUPABASE_URL = ""; // ex: "https://abc123.supabase.co"
-    const SUPABASE_ANON_KEY = ""; // ex: "eyJhbGciOiJI..."
+    const SUPABASE_URL = "https://dpzugrdjgsxduviazxgd.supabase.co"; // ex: "https://abc123.supabase.co"
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRwenVncmRqZ3N4ZHV2aWF6eGdkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4MDEyOTAsImV4cCI6MjA3MTM3NzI5MH0.9Z_HhP2RNvmETWxriug0QS2w_NfiGwykTv9EpP-lOhA"; // ex: "eyJhbGciOiJI..."
 
     const hasSupabase = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
     const supabase = hasSupabase ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
