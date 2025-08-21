@@ -168,49 +168,11 @@
     <div class="tiny">Open‑source: vous pouvez modifier et publier librement.</div>
   </footer>
 
-  <!-- =============================================
-  ⚙️  INSTALLATION SUPABASE (gratuit)
-  1) Créez un projet sur supabase.com (offre gratuite)
-  2) Dans Project Settings → API, copiez l'URL et l'anon key et collez‑les dans SUPABASE_URL/ANON_KEY ci‑dessous
-  3) Ouvrez SQL Editor et exécutez ce script pour la base + RLS + publication Realtime :
-
-  -- SQL à exécuter dans Supabase -------------------------------------------
-  create table if not exists players (
-    user_id uuid primary key,          -- == auth.uid()
-    username text not null,
-    balance bigint not null default 0, -- stock de $DUCKS
-    rate integer not null default 1,   -- production par seconde
-    upgrades jsonb not null default '{}',
-    updated_at timestamptz not null default now()
-  );
-
-  alter table players enable row level security;
-
-  -- n'importe qui peut lire le classement
-  create policy if not exists players_read on players for select using (true);
-
-  -- seul l'utilisateur peut créer/mettre à jour sa ligne
-  create policy if not exists players_insert on players
-    for insert with check (auth.uid() = user_id);
-
-  create policy if not exists players_update on players
-    for update using (auth.uid() = user_id);
-
-  -- activer realtime sur la table
-  alter publication supabase_realtime add table players;
-  -- ------------------------------------------------------------------------
-
-  4) Activez l'auth anonyme (dans Authentication → Providers → Anonymous)
-  5) Déployez ce fichier unique sur Vercel / Netlify / GitHub Pages (gratuit)
-
-  Sans Supabase : le jeu marche en local (pas de classement/chat en ligne).
-  ============================================== -->
-
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
     // 🔐 Renseignez vos clés ici (ou laissez vide pour mode offline):
-    const SUPABASE_URL = "https://dpzugrdjgsxduviazxgd.supabase.co/"; // ex: "https://abc123.supabase.co"
+    const SUPABASE_URL = "https://dpzugrdjgsxduviazxgd.supabase.co"; // ex: "https://abc123.supabase.co"
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRwenVncmRqZ3N4ZHV2aWF6eGdkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4MDEyOTAsImV4cCI6MjA3MTM3NzI5MH0.9Z_HhP2RNvmETWxriug0QS2w_NfiGwykTv9EpP-lOhA"; // ex: "eyJhbGciOiJI..."
 
     const hasSupabase = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
