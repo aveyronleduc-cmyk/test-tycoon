@@ -3,117 +3,63 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Duck Factory Tycoon — MVP</title>
-  <meta name="description" content="Tycoon multijoueur gratuit, 100% navigateur, propulsé par Supabase (gratuit)." />
+  <title>Duck Factory Tycoon — MVP+ Fun Edition</title>
+  <meta name="description" content="Tycoon multijoueur gratuit, 100% navigateur. Prestige, quêtes, récompenses quotidiennes, événements aléatoires, offline gains." />
   <style>
     :root {
-      --bg: #0b1020;
-      --bg-soft: #121a30;
-      --card: #11182c;
-      --text: #f1f5f9;
-      --muted: #94a3b8;
-      --accent: #22d3ee;
-      --accent-2: #34d399;
-      --danger: #fb7185;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius: 16px;
+      --bg: #0b1020; --bg-soft:#121a30; --card:#11182c; --text:#f1f5f9; --muted:#94a3b8;
+      --accent:#22d3ee; --accent-2:#34d399; --danger:#fb7185; --shadow:0 10px 30px rgba(0,0,0,.35); --radius:16px;
     }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      color: var(--text);
-      background: radial-gradient(1200px 800px at 10% -10%, #102046, transparent),
-                  radial-gradient(800px 500px at 110% 10%, #10353b, transparent),
-                  var(--bg);
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      gap: 16px;
-      padding: 16px;
-    }
-    header, footer {
-      display: flex; align-items: center; justify-content: space-between;
-      background: linear-gradient(180deg, #0e1729, #0b1222);
-      border: 1px solid #1f2a44;
-      border-radius: var(--radius);
-      padding: 12px 16px;
-      box-shadow: var(--shadow);
-    }
-    header h1 {
-      margin: 0; font-size: 18px; letter-spacing: .5px; font-weight: 700;
-    }
-    header .right { display: flex; gap: 10px; align-items: center; }
-    .badge { color: #0b1222; background: var(--accent); font-weight: 700; padding: 4px 8px; border-radius: 999px; font-size: 12px; }
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Noto Sans","Helvetica Neue",Arial; color:var(--text);
+      background: radial-gradient(1200px 800px at 10% -10%, #102046, transparent), radial-gradient(800px 500px at 110% 10%, #10353b, transparent), var(--bg);
+      display:grid; grid-template-rows:auto 1fr auto; gap:16px; padding:16px}
+    header,footer{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,#0e1729,#0b1222);border:1px solid #1f2a44;border-radius:var(--radius);padding:12px 16px;box-shadow:var(--shadow)}
+    header h1{margin:0;font-size:18px;letter-spacing:.5px;font-weight:800}
+    header .right{display:flex;gap:10px;align-items:center}
+    .badge{color:#0b1222;background:var(--accent);font-weight:800;padding:4px 8px;border-radius:999px;font-size:12px}
 
-    main {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 16px;
-    }
-    @media (max-width: 980px) {
-      main { grid-template-columns: 1fr; }
-    }
+    main{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+    @media (max-width:980px){main{grid-template-columns:1fr}}
+    .card{background:linear-gradient(180deg,#0c1426,#0b1222);border:1px solid #1f2a44;border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+    .card h2{margin:0 0 12px;font-size:16px;color:#e2e8f0;font-weight:800}
+    .muted{color:var(--muted)}
 
-    .card {
-      background: linear-gradient(180deg, #0c1426, #0b1222);
-      border: 1px solid #1f2a44;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 16px;
-    }
-    .card h2 { margin: 0 0 12px; font-size: 16px; color: #e2e8f0; font-weight: 700; }
-    .muted { color: var(--muted); }
+    .kpibox{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:12px}
+    .kpi{background:var(--bg-soft);border-radius:12px;padding:10px;border:1px solid #1f2a44}
+    .kpi .label{font-size:11px;color:var(--muted)} .kpi .value{font-size:20px;font-weight:900;margin-top:2px}
 
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    @media (max-width:640px){.grid{grid-template-columns:1fr}}
+    .upgrade{background:var(--bg-soft);border-radius:12px;padding:12px;border:1px solid #1f2a44;display:grid;gap:8px}
+    .upgrade h3{margin:0;font-size:14px} .upgrade p{margin:0;font-size:12px;color:var(--muted);min-height:30px}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:8px}
 
-    .kpibox { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
-    .kpi { background: var(--bg-soft); border-radius: 12px; padding: 10px; border: 1px solid #1f2a44; }
-    .kpi .label { font-size: 11px; color: var(--muted); }
-    .kpi .value { font-size: 20px; font-weight: 800; margin-top: 2px; }
+    button{appearance:none;border:none;cursor:pointer;font-weight:800;letter-spacing:.2px;padding:10px 12px;border-radius:12px;background:linear-gradient(180deg,#0ea5b7,#0891a2); color:#03151a;transition:transform .05s ease, box-shadow .2s ease, filter .2s ease; box-shadow:0 8px 16px rgba(34,211,238,.25)}
+    button:hover{filter:brightness(1.05)} button:active{transform:translateY(1px) scale(.995)} button[disabled]{opacity:.55;cursor:not-allowed;box-shadow:none}
+    .btn-outline{background:transparent;color:var(--accent);border:1px solid #1f2a44}
+    .btn-danger{background:linear-gradient(180deg,#fb7185,#ef4444);color:#1b0a0e;box-shadow:0 8px 16px rgba(251,113,133,.25)}
+    .btn-ghost{background:transparent;color:#e2e8f0}
 
-    .upgrade { background: var(--bg-soft); border-radius: 12px; padding: 12px; border: 1px solid #1f2a44; display: grid; gap: 8px; }
-    .upgrade h3 { margin: 0; font-size: 14px; }
-    .upgrade p { margin: 0; font-size: 12px; color: var(--muted); min-height: 30px; }
-    .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    table{width:100%;border-collapse:collapse} th,td{text-align:left;font-size:13px;padding:8px}
+    thead th{color:#cbd5e1;font-weight:900;border-bottom:1px solid #1f2a44} tbody tr{border-bottom:1px dashed #1f2a44}
+    tbody tr.me{background:rgba(52,211,153,.06)}
 
-    button {
-      appearance: none; border: none; cursor: pointer; font-weight: 700; letter-spacing: .2px;
-      padding: 10px 12px; border-radius: 12px; background: linear-gradient(180deg, #0ea5b7, #0891a2);
-      color: #03151a; transition: transform .05s ease, box-shadow .2s ease, filter .2s ease; box-shadow: 0 8px 16px rgba(34, 211, 238, .25);
-    }
-    button:hover { filter: brightness(1.05); }
-    button:active { transform: translateY(1px) scale(.995); }
-    button[disabled] { opacity: .55; cursor: not-allowed; box-shadow: none; }
+    #chatLog{background:var(--bg-soft);border:1px solid #1f2a44;border-radius:12px;height:200px;overflow-y:auto;padding:10px;font-size:13px}
+    .msg{margin-bottom:6px} .msg .user{color:var(--accent-2);font-weight:900} .msg .time{color:var(--muted);font-size:11px;margin-left:6px}
+    #chatForm{display:grid;grid-template-columns:1fr auto;gap:8px}
 
-    .btn-outline { background: transparent; color: var(--accent); border: 1px solid #1f2a44; }
-    .btn-danger { background: linear-gradient(180deg, #fb7185, #ef4444); color: #1b0a0e; box-shadow: 0 8px 16px rgba(251, 113, 133, .25); }
+    .tiny{font-size:11px;color:var(--muted)}
+    .hint{background:#0f172a;border:1px dashed #1f2a44;padding:10px;border-radius:12px;font-size:12px}
+    .pill{padding:2px 8px;border-radius:999px;border:1px solid #1f2a44;background:#0b1222;font-size:11px}
 
-    /* Leaderboard */
-    table { width: 100%; border-collapse: collapse; }
-    th, td { text-align: left; font-size: 13px; padding: 8px; }
-    thead th { color: #cbd5e1; font-weight: 800; border-bottom: 1px solid #1f2a44; }
-    tbody tr { border-bottom: 1px dashed #1f2a44; }
-    tbody tr.me { background: rgba(52, 211, 153, .06); }
-
-    /* Chat */
-    #chatLog {
-      background: var(--bg-soft); border: 1px solid #1f2a44; border-radius: 12px; height: 200px; overflow-y: auto; padding: 10px; font-size: 13px;
-    }
-    .msg { margin-bottom: 6px; }
-    .msg .user { color: var(--accent-2); font-weight: 700; }
-    .msg .time { color: var(--muted); font-size: 11px; margin-left: 6px; }
-    #chatForm { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
-
-    .tiny { font-size: 11px; color: var(--muted); }
-    .hint { background: #0f172a; border: 1px dashed #1f2a44; padding: 10px; border-radius: 12px; font-size: 12px; }
-    code.inline { background: #0b1222; padding: 2px 6px; border-radius: 6px; border: 1px solid #1f2a44; }
+    /* Event Toast */
+    #toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#0b1222;border:1px solid #1f2a44;border-radius:14px;padding:12px 14px;box-shadow:var(--shadow);display:none;gap:10px;align-items:center;z-index:10}
   </style>
 </head>
 <body>
   <header>
-    <h1>🦆 Duck Factory Tycoon — <span class="muted">MVP multijoueur</span></h1>
+    <h1>🦆 Duck Factory Tycoon — <span class="muted">Fun Edition</span></h1>
     <div class="right">
       <span class="badge" id="online">0 en ligne</span>
       <button id="renameBtn" class="btn-outline" title="Changer votre pseudo">Renommer</button>
@@ -128,18 +74,45 @@
         <div class="kpi"><div class="label">Pseudo</div><div class="value" id="username">…</div></div>
         <div class="kpi"><div class="label">Solde</div><div class="value" id="balance">0</div></div>
         <div class="kpi"><div class="label">Production</div><div class="value" id="rate">0 /s</div></div>
+        <div class="kpi"><div class="label">Plumes (Prestige)</div><div class="value" id="feathers">0</div></div>
+        <div class="kpi"><div class="label">Multiplicateur</div><div class="value" id="mult">×1.00</div></div>
+      </div>
+
+      <div class="row" style="margin:8px 0 12px;gap:12px">
+        <button id="clickBtn" title="Production active">Fabriquer 🦆 (+1)</button>
+        <span class="pill" id="streakLabel">Série quotidienne : 0</span>
+        <button id="dailyBtn" class="btn-outline">Récompense quotidienne</button>
+        <button id="prestigeBtn" class="btn-outline" title="Réinitialise et gagne des Plumes" disabled>Prestige</button>
       </div>
 
       <div class="grid" id="upgrades"></div>
 
+      <div class="grid" style="margin-top:12px" id="metaGrid">
+        <div class="upgrade">
+          <h3>Quêtes</h3>
+          <p>Objectifs courts pour guider la progression. Récompenses instantanées.</p>
+          <div id="quests"></div>
+        </div>
+        <div class="upgrade">
+          <h3>Succès</h3>
+          <p>Débloquez des badges permanents et des bonus.</p>
+          <div id="achievements"></div>
+        </div>
+        <div class="upgrade">
+          <h3>Événements</h3>
+          <p>Des événements aléatoires apparaissent régulièrement. Faites les bons choix !</p>
+          <div id="eventsInfo" class="tiny">Prochain événement : <span id="nextEvent">—</span></div>
+        </div>
+      </div>
+
       <div class="hint" style="margin-top:12px">
-        <strong>Astuce :</strong> tout est gratuit à héberger. Le multijoueur et la persistance passent par Supabase (gratuit). Sans configuration Supabase, le jeu fonctionne en <em>offline</em> (localStorage) mais sans classement/chat.
+        <strong>Astuce :</strong> Offline earnings jusqu'à 12 h, prestige pour accélérer, et quêtes quotidiennes pour varier le gameplay. Tout reste hébergeable gratuitement (Supabase en option pour multi).
       </div>
     </section>
 
     <aside class="card">
       <h2>Joueurs & Chat</h2>
-      <div style="display:grid; gap:12px">
+      <div style="display:grid;gap:12px">
         <section>
           <h3 style="margin:0 0 8px;font-size:14px">🏆 Top 10</h3>
           <table>
@@ -147,7 +120,6 @@
             <tbody id="leaderboard"><tr><td>—</td><td>Personne</td><td>0</td><td>—</td></tr></tbody>
           </table>
         </section>
-
         <section>
           <h3 style="margin:0 0 8px;font-size:14px">💬 Chat</h3>
           <div id="chatLog"></div>
@@ -162,61 +134,89 @@
   </main>
 
   <footer>
-    <div class="tiny">
-      Fait avec ❤️ + <a href="https://supabase.com" target="_blank" rel="noreferrer">Supabase</a> (offre gratuite). Code 100% client.
-    </div>
+    <div class="tiny">Fait avec ❤️ + <a href="https://supabase.com" target="_blank" rel="noreferrer">Supabase</a> (offre gratuite). Code 100% client.</div>
     <div class="tiny">Open‑source: vous pouvez modifier et publier librement.</div>
   </footer>
+
+  <div id="toast"></div>
+
+  <!-- =============================================
+  ⚙️  INSTALLATION SUPABASE (gratuit)
+  1) Créez un projet sur supabase.com (offre gratuite)
+  2) Dans Project Settings → API, copiez l'URL et l'anon key et collez‑les dans SUPABASE_URL/ANON_KEY ci‑dessous
+  3) Ouvrez SQL Editor et exécutez ce script pour la base + RLS + publication Realtime :
+
+  -- SQL à exécuter dans Supabase -------------------------------------------
+  create table if not exists players (
+    user_id uuid primary key,
+    username text not null,
+    balance bigint not null default 0,
+    rate integer not null default 1,
+    upgrades jsonb not null default '{}',
+    updated_at timestamptz not null default now()
+  );
+  alter table players enable row level security;
+  create policy if not exists players_read on players for select using (true);
+  create policy if not exists players_insert on players for insert with check (auth.uid() = user_id);
+  create policy if not exists players_update on players for update using (auth.uid() = user_id);
+  alter publication supabase_realtime add table players;
+  -- ------------------------------------------------------------------------
+
+  4) Activez l'auth anonyme (Authentication → Providers → Anonymous)
+  5) Déployez ce fichier unique sur Vercel / Netlify / GitHub Pages (gratuit)
+  ============================================== -->
 
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-    // 🔐 Renseignez vos clés ici (ou laissez vide pour mode offline):
-    const SUPABASE_URL = "https://dpzugrdjgsxduviazxgd.supabase.co"; // ex: "https://abc123.supabase.co"
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRwenVncmRqZ3N4ZHV2aWF6eGdkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4MDEyOTAsImV4cCI6MjA3MTM3NzI5MH0.9Z_HhP2RNvmETWxriug0QS2w_NfiGwykTv9EpP-lOhA"; // ex: "eyJhbGciOiJI..."
+    // 🔐 Renseignez vos clés (laisser vide => mode offline sans multi):
+    const SUPABASE_URL = ""; // ex: "https://abc123.supabase.co"
+    const SUPABASE_ANON_KEY = ""; // ex: "eyJhbGciOiJI..."
 
     const hasSupabase = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
     const supabase = hasSupabase ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
-    // —— UI helpers ——
+    // —— Helpers ——
     const $ = s => document.querySelector(s);
-    const $$ = s => Array.from(document.querySelectorAll(s));
     const fmt = n => new Intl.NumberFormat('fr-FR').format(Math.floor(n));
-    const fmtTime = iso => new Date(iso).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    const fmtTime = iso => new Date(iso).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    const nowSec = () => Math.floor(Date.now()/1000);
 
-    // —— État local ——
+    // —— État ——
     let username = localStorage.getItem('duck_username') || `Duckling-${Math.floor(Math.random()*900+100)}`;
-    let userId = localStorage.getItem('duck_uid') || null; // == auth.uid()
+    let userId = localStorage.getItem('duck_uid') || null;
 
     let balance = +(localStorage.getItem('duck_balance') || 0);
     let rate = +(localStorage.getItem('duck_rate') || 1);
     let upgrades = JSON.parse(localStorage.getItem('duck_upgrades') || '{}');
 
-    let lastSave = 0;
-    let lastTick = performance.now();
+    // Nouveaux meta (stockés dans upgrades.meta pour compat DB):
+    upgrades.meta = upgrades.meta || { feathers:0, click:1, prestigeLevel:0, lastSeen:nowSec(), streak:0, lastDaily:0, achievements:{}, quests:{} };
+
+    let lastSave = 0; let lastTick = performance.now();
 
     const UPGRADES = [
-      { id: 'mold', name: 'Moules haute pression', desc: '+1 /s. Coût ×1.15 à chaque achat.', baseCost: 20, deltaRate: 1, scale: 1.15 },
-      { id: 'paint', name: 'Ligne de peinture', desc: '+5 /s. Coût ×1.17', baseCost: 120, deltaRate: 5, scale: 1.17 },
-      { id: 'robots', name: 'Robots d\'emballage', desc: '+20 /s. Coût ×1.2', baseCost: 600, deltaRate: 20, scale: 1.2 },
-      { id: 'ads', name: 'Campagne pub', desc: 'Double la prod sur 60 s (cooldown 120 s).', baseCost: 1000, deltaRate: 0, scale: 1.35, active: false, duration: 60_000, cooldown: 120_000, lastUse: 0 },
+      { id:'mold', name:'Moules haute pression', desc:'+1 /s. Coût ×1.15', baseCost:20, deltaRate:1, scale:1.15 },
+      { id:'paint', name:'Ligne de peinture', desc:'+5 /s. Coût ×1.17', baseCost:120, deltaRate:5, scale:1.17 },
+      { id:'robots', name:'Robots d\'emballage', desc:'+20 /s. Coût ×1.2', baseCost:600, deltaRate:20, scale:1.20 },
+      { id:'click', name:'Bouton turbo', desc:'Double le clic (+1 → +2, etc.)', baseCost:80, deltaClick:1, scale:1.35 },
+      { id:'ads', name:'Campagne pub', desc:'Boost ×2 pendant 60 s (CD 120 s)', baseCost:1000, deltaRate:0, scale:1.35, active:false, duration:60000, cooldown:120000, lastUse:0 },
+      { id:'lab', name:'R&D canard supersonique', desc:'+100 /s. Coût ×1.25', baseCost:5000, deltaRate:100, scale:1.25 },
     ];
 
-    // —— DOM refs ——
-    const nameEl = $('#username');
-    const balEl = $('#balance');
-    const rateEl = $('#rate');
-    const onlineEl = $('#online');
-    const upgradesWrap = $('#upgrades');
-    const renameBtn = $('#renameBtn');
-    const resetBtn = $('#resetBtn');
+    // —— DOM ——
+    const nameEl=$('#username'), balEl=$('#balance'), rateEl=$('#rate'), onlineEl=$('#online');
+    const featherEl=$('#feathers'), multEl=$('#mult');
+    const upgradesWrap=$('#upgrades');
+    const renameBtn=$('#renameBtn'), resetBtn=$('#resetBtn');
+    const lbBody=$('#leaderboard');
+    const chatLog=$('#chatLog'), chatForm=$('#chatForm'), chatInput=$('#chatInput');
+    const clickBtn=$('#clickBtn'), dailyBtn=$('#dailyBtn'), prestigeBtn=$('#prestigeBtn');
+    const questsEl=$('#quests'), achvEl=$('#achievements');
+    const nextEventEl=$('#nextEvent');
+    const toast=$('#toast');
 
-    const lbBody = $('#leaderboard');
-    const chatLog = $('#chatLog');
-    const chatForm = $('#chatForm');
-    const chatInput = $('#chatInput');
-
-    function persistLocal() {
+    function persistLocal(){
       localStorage.setItem('duck_username', username);
       localStorage.setItem('duck_balance', String(Math.floor(balance)));
       localStorage.setItem('duck_rate', String(rate));
@@ -224,217 +224,210 @@
       if (userId) localStorage.setItem('duck_uid', userId);
     }
 
-    function renderKpis() {
+    // —— Calculs ——
+    function prestigeMultiplier(){ return 1 + (upgrades.meta.feathers * 0.05) + (upgrades.meta.prestigeLevel * 0.02); }
+    function totalRate(){ return Math.max(0, rate) * prestigeMultiplier(); }
+
+    function renderKpis(){
       nameEl.textContent = username;
       balEl.textContent = fmt(balance) + ' $DUCKS';
-      rateEl.textContent = fmt(rate) + ' /s';
+      rateEl.textContent = fmt(totalRate()) + ' /s';
+      featherEl.textContent = fmt(upgrades.meta.feathers);
+      multEl.textContent = '×' + prestigeMultiplier().toFixed(2);
+      $('#streakLabel').textContent = `Série quotidienne : ${upgrades.meta.streak}`;
+      const canPrestige = balance >= 100000 && (upgrades.meta.prestigeLevel>=0);
+      prestigeBtn.disabled = !canPrestige;
     }
 
-    function upgradeCount(id) { return upgrades[id]?.count || 0; }
-    function upgradeCost(u) {
-      const n = upgradeCount(u.id);
-      return Math.floor(u.baseCost * Math.pow(u.scale, n));
-    }
+    function upgradeCount(id){ return upgrades[id]?.count || 0; }
+    function upgradeCost(u){ const n = upgradeCount(u.id); return Math.floor(u.baseCost * Math.pow(u.scale, n)); }
 
-    function buyUpgrade(id) {
-      const u = UPGRADES.find(x => x.id === id);
-      if (!u) return;
-      const cost = upgradeCost(u);
-      if (balance < cost) return;
-      balance -= cost;
-      upgrades[id] = upgrades[id] || { count: 0 };
-      upgrades[id].count++;
+    function buyUpgrade(id){
+      const u = UPGRADES.find(x=>x.id===id); if(!u) return; const cost=upgradeCost(u); if(balance<cost) return;
+      balance -= cost; upgrades[id] = upgrades[id] || {count:0}; upgrades[id].count++;
       if (u.deltaRate) rate += u.deltaRate;
-      // active skill (ads)
-      if (u.id === 'ads') {
-        const now = Date.now();
-        if (now - (u.lastUse||0) > u.cooldown) {
-          u.lastUse = now;
-          const multiplier = 2;
-          const baseRate = rate;
-          rate = Math.round(rate * multiplier);
-          setTimeout(() => { rate = baseRate; }, u.duration);
-        }
+      if (u.deltaClick) upgrades.meta.click += u.deltaClick;
+      if (u.id==='ads') {
+        const now=Date.now(); if (now-(u.lastUse||0) > u.cooldown){ u.lastUse=now; const base=rate; rate = Math.round(rate*2); setTimeout(()=>{ rate = base; }, u.duration); toastMsg('🚀 Boost publicitaire actif !'); }
       }
-      renderKpis();
-      renderUpgrades();
-      persistLocal();
+      renderKpis(); renderUpgrades(); persistLocal();
     }
 
-    function renderUpgrades() {
-      upgradesWrap.innerHTML = '';
-      for (const u of UPGRADES) {
-        const n = upgradeCount(u.id);
-        const cost = upgradeCost(u);
-        const can = balance >= cost;
-        const card = document.createElement('div');
-        card.className = 'upgrade';
-        card.innerHTML = `
-          <h3>${u.name}</h3>
-          <p>${u.desc}</p>
-          <div class="row">
-            <span class="muted">Niv. <strong>${n}</strong> · Coût <strong>${fmt(cost)}</strong></span>
-            <button ${can?'' :'disabled'} data-up="${u.id}">Acheter</button>
-          </div>
-        `;
+    function renderUpgrades(){
+      upgradesWrap.innerHTML='';
+      for(const u of UPGRADES){
+        const n=upgradeCount(u.id), cost=upgradeCost(u), can=balance>=cost; const card=document.createElement('div'); card.className='upgrade';
+        card.innerHTML=`<h3>${u.name}</h3><p>${u.desc}</p><div class="row"><span class="muted">Niv. <strong>${n}</strong> · Coût <strong>${fmt(cost)}</strong></span><button ${can?'':'disabled'} data-up="${u.id}">Acheter</button></div>`;
         upgradesWrap.appendChild(card);
       }
-      upgradesWrap.querySelectorAll('button[data-up]').forEach(btn => {
-        btn.addEventListener('click', () => buyUpgrade(btn.dataset.up));
+      upgradesWrap.querySelectorAll('button[data-up]').forEach(btn=>btn.addEventListener('click',()=>buyUpgrade(btn.dataset.up)));
+    }
+
+    // —— Clicker actif ——
+    clickBtn.addEventListener('click',()=>{ balance += upgrades.meta.click * prestigeMultiplier(); renderKpis(); maybeSave(); tickQuests('click', upgrades.meta.click); });
+
+    // —— Daily reward ——
+    dailyBtn.addEventListener('click', ()=>{
+      const day = Math.floor(Date.now()/86400000);
+      if (upgrades.meta.lastDaily===day) return toastMsg('⏳ Déjà réclamé aujourd’hui.');
+      const yesterday = day-1; upgrades.meta.streak = (upgrades.meta.lastDaily===yesterday) ? (upgrades.meta.streak+1) : 1;
+      upgrades.meta.lastDaily = day;
+      const reward = Math.floor(500 * (1+ (upgrades.meta.streak-1)*0.2));
+      balance += reward * prestigeMultiplier();
+      if (upgrades.meta.streak%7===0){ upgrades.meta.feathers += 1; toastMsg(`🎁 Jour ${upgrades.meta.streak} : +${fmt(reward)} $DUCKS et +1 Plume`); }
+      else toastMsg(`🎁 Récompense quotidienne : +${fmt(reward)} $DUCKS`);
+      renderKpis(); persistLocal(); maybeSave(true);
+    });
+
+    // —— Prestige ——
+    prestigeBtn.addEventListener('click', ()=>{
+      if (balance < 100000) return toastMsg('Pas assez pour le prestige (100 000 $DUCKS)');
+      if (!confirm('Prestige ? Vous gagnez des Plumes et redémarrez (solde/upgrades reset).')) return;
+      const feathersGain = Math.floor(Math.sqrt(balance/100000));
+      upgrades.meta.feathers += feathersGain; upgrades.meta.prestigeLevel += 1;
+      balance = 0; rate = 1; const meta = upgrades.meta; upgrades = { meta }; // reset tout sauf meta
+      toastMsg(`✨ Prestige ! +${feathersGain} Plumes`);
+      renderUpgrades(); renderKpis(); persistLocal(); maybeSave(true);
+    });
+
+    // —— Quêtes & Succès ——
+    const QUEST_POOL = [
+      { id:'q_bal_1', text:'Atteindre 1 000 $DUCKS', cond:()=>balance>=1000, reward:()=>{balance+=500} },
+      { id:'q_rate_1', text:'Atteindre 20 /s', cond:()=>totalRate()>=20, reward:()=>{balance+=800} },
+      { id:'q_buy_3', text:'Acheter 3 améliorations', cond:()=>Object.values(upgrades).reduce((a,b)=>a+(b?.count||0),0)>=3, reward:()=>{balance+=1200} },
+      { id:'q_click_100', text:'Fabriquer 100 canards à la main', cond:()=> (upgrades.meta.quests.clicks||0) >= 100, reward:()=>{upgrades.meta.feathers+=1} },
+    ];
+
+    function tickQuests(type, amount=1){
+      const m = upgrades.meta.quests; m.clicks = (m.clicks||0) + (type==='click'?amount:0);
+      renderQuests();
+    }
+
+    function renderQuests(){
+      questsEl.innerHTML='';
+      for (const q of QUEST_POOL){
+        const done = upgrades.meta.quests[q.id]==='done';
+        const canClaim = !done && q.cond();
+        const div=document.createElement('div'); div.className='row';
+        div.innerHTML = `<span>${done?'✅':'🧭'} ${q.text}</span><button ${canClaim?'':'disabled'} data-q="${q.id}">${done?'Terminé':'Réclamer'}</button>`;
+        questsEl.appendChild(div);
+      }
+      questsEl.querySelectorAll('button[data-q]').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          const id=btn.dataset.q; const q=QUEST_POOL.find(x=>x.id===id); if(!q||upgrades.meta.quests[id]==='done'||!q.cond()) return; q.reward(); upgrades.meta.quests[id]='done'; toastMsg('✅ Quête récompensée'); renderKpis(); persistLocal(); maybeSave(true); renderQuests();
+        })
       });
     }
 
-    // —— Boucle de production ——
-    function loop(ts) {
-      const dt = Math.max(0, ts - lastTick);
-      lastTick = ts;
-      balance += (rate * dt) / 1000;
-      renderKpis();
-      maybeSave();
+    const ACHIEVEMENTS = [
+      { id:'a_bal_10k', text:'10 000 $DUCKS', cond:()=>balance>=10000, bonus:()=>{upgrades.meta.click+=1} },
+      { id:'a_rate_100', text:'100 /s', cond:()=>totalRate()>=100, bonus:()=>{upgrades.meta.feathers+=1} },
+      { id:'a_prestige_1', text:'Premier prestige', cond:()=>upgrades.meta.prestigeLevel>=1, bonus:()=>{} },
+    ];
+
+    function renderAchievements(){
+      achvEl.innerHTML='';
+      for(const a of ACHIEVEMENTS){
+        const done = upgrades.meta.achievements[a.id]==='done';
+        const can = !done && a.cond();
+        const row=document.createElement('div'); row.className='row';
+        row.innerHTML=`<span>${done?'🏅':'🔓'} ${a.text}</span><button class="btn-ghost" ${can?'':'disabled'} data-a="${a.id}">${done?'OK':'Activer bonus'}</button>`;
+        achvEl.appendChild(row);
+      }
+      achvEl.querySelectorAll('button[data-a]').forEach(btn=>btn.addEventListener('click',()=>{
+        const id=btn.dataset.a; const a=ACHIEVEMENTS.find(x=>x.id===id); if(!a||upgrades.meta.achievements[id]==='done'||!a.cond()) return; a.bonus(); upgrades.meta.achievements[id]='done'; toastMsg('🏅 Succès activé'); renderKpis(); persistLocal(); maybeSave(true); renderAchievements();
+      }));
+    }
+
+    // —— Événements aléatoires ——
+    let nextEventAt = Date.now() + randRange(90_000, 150_000);
+    function scheduleEvent(){ nextEventAt = Date.now() + randRange(120_000, 180_000); nextEventEl.textContent = new Date(nextEventAt).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}); }
+    function maybeEvent(){ if(Date.now()>=nextEventAt){ triggerRandomEvent(); scheduleEvent(); } }
+    function triggerRandomEvent(){
+      const events=[
+        { text:'🛒 Giga Commande ! Accepter une grosse commande pour +50% prod 2 min, mais −5 000 $DUCKS maintenant.', apply:()=>{ if(balance>=5000){ balance-=5000; const b=rate; rate=Math.round(rate*1.5); setTimeout(()=>rate=b, 120000); toastMsg('📈 Prod boostée pendant 2 min'); } else toastMsg('Pas assez de $DUCKS pour la commande.'); } },
+        { text:'🧪 Expérience risquée : 30% de chance ×3 prod 60 s, sinon −20% solde', apply:()=>{ if(Math.random()<0.3){ const b=rate; rate*=3; setTimeout(()=>rate=b, 60000); toastMsg('🎲 Jackpot ! ×3 pendant 60 s'); } else { balance=Math.max(0, Math.floor(balance*0.8)); toastMsg('💥 Aïe, perte de 20% du solde'); } } },
+        { text:'🎯 Optimisation : +1 clic permanent', apply:()=>{ upgrades.meta.click+=1; toastMsg('👆 Clic +1 permanent'); } },
+      ];
+      const ev = events[Math.floor(Math.random()*events.length)];
+      showToast(ev.text + ' ', [ {label:'OK', fn:ev.apply}, {label:'Ignorer', fn:()=>{}} ]);
+    }
+
+    function randRange(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+
+    // —— Boucle principale ——
+    function loop(ts){
+      const dt = Math.max(0, ts - lastTick); lastTick = ts;
+      balance += (totalRate() * dt) / 1000;
+      renderKpis(); maybeSave(); maybeEvent();
       requestAnimationFrame(loop);
     }
 
-    // —— Supabase: auth, presence, leaderboard, chat ——
-    let presenceChannel = null;
-    let dbChannel = null;
-    let chatChannel = null;
+    // —— Offline earnings ——
+    function applyOffline(){
+      const last = upgrades.meta.lastSeen||nowSec(); const nowS = nowSec(); const delta = Math.min(12*3600, Math.max(0, nowS-last));
+      if (delta>5){ const gain = Math.floor(totalRate() * delta); balance += gain; toastMsg(`⏰ Gains hors‑ligne : +${fmt(gain)} $DUCKS (max 12h)`); }
+      upgrades.meta.lastSeen = nowS;
+    }
 
-    async function initSupabaseOnline() {
-      if (!hasSupabase) return;
-      // Auth anonyme (nécessite d'activer le provider Anonymous côté Supabase)
+    window.addEventListener('beforeunload', ()=>{ upgrades.meta.lastSeen = nowSec(); persistLocal(); });
+
+    // —— Supabase (optionnel) ——
+    let presenceChannel=null, dbChannel=null, chatChannel=null;
+    async function initSupabaseOnline(){
+      if(!hasSupabase) return;
       const { data: userData } = await supabase.auth.getUser();
       if (!userData?.user) {
         const { data: signIn, error } = await supabase.auth.signInAnonymously();
-        if (error) {
-          console.warn('Auth anonyme indisponible. Passage en mode offline.', error);
-          return; // restera offline
-        }
+        if (error) { console.warn('Auth anonyme indisponible. Offline.', error); return; }
         userId = signIn.user.id;
-      } else {
-        userId = userData.user.id;
-      }
+      } else { userId = userData.user.id; }
 
-      // Créer/mettre à jour le profil joueur côté DB
-      const row = {
-        user_id: userId,
-        username,
-        balance: Math.floor(balance),
-        rate: Math.floor(rate),
-        upgrades
-      };
-      await supabase.from('players').upsert(row).eq('user_id', userId);
+      await supabase.from('players').upsert({ user_id:userId, username, balance:Math.floor(balance), rate:Math.floor(rate), upgrades }).eq('user_id', userId);
 
-      // Realtime: presence (qui est en ligne?)
-      presenceChannel = supabase.channel('lobby', { config: { presence: { key: userId } } });
-      presenceChannel.on('presence', { event: 'sync' }, () => {
-        const state = presenceChannel.presenceState();
-        // Compter les metas totales
-        const count = Object.values(state).reduce((acc, metas) => acc + metas.length, 0);
-        onlineEl.textContent = `${count} en ligne`;
+      presenceChannel = supabase.channel('lobby', { config:{ presence:{ key:userId } } });
+      presenceChannel.on('presence', { event:'sync' }, ()=>{
+        const state = presenceChannel.presenceState(); const count = Object.values(state).reduce((acc,metas)=>acc+metas.length,0); onlineEl.textContent = `${count} en ligne`;
       });
-      await presenceChannel.subscribe(async (status) => {
-        if (status === 'SUBSCRIBED') {
-          await presenceChannel.track({ username, at: Date.now() });
-        }
-      });
+      await presenceChannel.subscribe(async (status)=>{ if(status==='SUBSCRIBED'){ await presenceChannel.track({ username, at:Date.now() }); }});
 
-      // Realtime: suivre les changements de la table pour rafraîchir le classement
-      dbChannel = supabase.channel('db-changes')
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'players' }, () => {
-          refreshLeaderboard();
-        });
-      await dbChannel.subscribe();
+      dbChannel = supabase.channel('db-changes').on('postgres_changes', {event:'*', schema:'public', table:'players'}, ()=>{ refreshLeaderboard(); }).subscribe();
 
-      // Chat broadcast (éphémère)
-      chatChannel = supabase.channel('chat')
-        .on('broadcast', { event: 'message' }, ({ payload }) => addChatMessage(payload))
-        .subscribe();
+      chatChannel = supabase.channel('chat').on('broadcast', {event:'message'}, ({payload})=>addChatMessage(payload)).subscribe();
 
       refreshLeaderboard();
     }
 
-    async function refreshLeaderboard() {
-      if (!hasSupabase) return;
-      const { data, error } = await supabase
-        .from('players')
-        .select('user_id, username, balance, updated_at')
-        .order('balance', { ascending: false })
-        .limit(10);
-      if (error) return;
-      lbBody.innerHTML = '';
-      (data || []).forEach((r, i) => {
-        const tr = document.createElement('tr');
-        if (r.user_id === userId) tr.classList.add('me');
-        tr.innerHTML = `<td>${i+1}</td><td>${r.username}</td><td>${fmt(r.balance)}</td><td>${fmtTime(r.updated_at)}</td>`;
-        lbBody.appendChild(tr);
-      });
+    async function refreshLeaderboard(){ if(!hasSupabase) return; const { data } = await supabase.from('players').select('user_id, username, balance, updated_at').order('balance',{ascending:false}).limit(10); lbBody.innerHTML=''; (data||[]).forEach((r,i)=>{ const tr=document.createElement('tr'); if(r.user_id===userId) tr.classList.add('me'); tr.innerHTML=`<td>${i+1}</td><td>${r.username}</td><td>${fmt(r.balance)}</td><td>${fmtTime(r.updated_at)}</td>`; lbBody.appendChild(tr); }); }
+
+    function addChatMessage(msg){ const div=document.createElement('div'); div.className='msg'; const time=msg.ts?new Date(msg.ts).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):''; div.innerHTML=`<span class="user">${msg.username||'???'}</span> <span class="time">${time}</span> — ${escapeHtml(msg.text||'')}`; chatLog.appendChild(div); chatLog.scrollTop = chatLog.scrollHeight; }
+    function escapeHtml(s){ return String(s).replace(/[&<>\"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+    chatForm.addEventListener('submit', async (e)=>{ e.preventDefault(); const text=chatInput.value.trim(); if(!text) return; chatInput.value=''; if(chatChannel){ await chatChannel.send({ type:'broadcast', event:'message', payload:{ username, text, ts:new Date().toISOString() } }); } else { addChatMessage({ username, text, ts:new Date().toISOString() }); } });
+
+    async function maybeSave(force=false){ const t=performance.now(); if(!force && t-lastSave<4000) return; lastSave=t; persistLocal(); if(!hasSupabase||!userId) return; await supabase.from('players').update({ username, balance:Math.floor(balance), rate:Math.floor(rate), upgrades, updated_at:new Date().toISOString() }).eq('user_id', userId); }
+
+    // —— UI actions génériques ——
+    renameBtn.addEventListener('click', async ()=>{ const val=prompt('Votre nouveau pseudo :', username); if(!val) return; username=val.trim().slice(0,24)||username; renderKpis(); await maybeSave(true); });
+    resetBtn.addEventListener('click', async ()=>{ if(!confirm('Tout réinitialiser (local uniquement) ?')) return; const meta=upgrades.meta; balance=0; rate=1; upgrades={ meta }; renderKpis(); renderUpgrades(); persistLocal(); await maybeSave(true); });
+
+    // —— Toasts ——
+    function toastMsg(text){ showToast(text, []); }
+    function showToast(text, actions=[{label:'OK', fn:()=>{}}]){
+      toast.innerHTML = '';
+      const span=document.createElement('span'); span.textContent=text; toast.appendChild(span);
+      for(const a of actions){ const b=document.createElement('button'); b.className='btn-outline'; b.textContent=a.label; b.addEventListener('click',()=>{ a.fn(); hideToast(); }); toast.appendChild(b); }
+      toast.style.display='flex';
+      setTimeout(()=>{ hideToast(); }, 8000);
     }
-
-    function addChatMessage(msg) {
-      const div = document.createElement('div');
-      div.className = 'msg';
-      const time = msg.ts ? new Date(msg.ts).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) : '';
-      div.innerHTML = `<span class="user">${msg.username||'???'}</span> <span class="time">${time}</span> — ${escapeHtml(msg.text||'')}`;
-      chatLog.appendChild(div);
-      chatLog.scrollTop = chatLog.scrollHeight;
-    }
-
-    function escapeHtml(s) {
-      return String(s).replace(/[&<>\"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
-    }
-
-    chatForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const text = chatInput.value.trim();
-      if (!text) return;
-      chatInput.value = '';
-      if (chatChannel) {
-        await chatChannel.send({ type: 'broadcast', event: 'message', payload: { username, text, ts: new Date().toISOString() } });
-      } else {
-        addChatMessage({ username, text, ts: new Date().toISOString() });
-      }
-    });
-
-    async function maybeSave(force=false) {
-      const now = performance.now();
-      if (!force && now - lastSave < 4000) return; // 4s
-      lastSave = now;
-      persistLocal();
-      if (!hasSupabase || !userId) return;
-      await supabase.from('players').update({
-        username,
-        balance: Math.floor(balance),
-        rate: Math.floor(rate),
-        upgrades,
-        updated_at: new Date().toISOString()
-      }).eq('user_id', userId);
-    }
-
-    // —— UI actions ——
-    renameBtn.addEventListener('click', async () => {
-      const val = prompt('Votre nouveau pseudo :', username);
-      if (!val) return;
-      username = val.trim().slice(0, 24) || username;
-      renderKpis();
-      await maybeSave(true);
-    });
-
-    resetBtn.addEventListener('click', async () => {
-      if (!confirm('Tout réinitialiser (local uniquement) ?')) return;
-      balance = 0; rate = 1; upgrades = {}; lastSave = 0;
-      renderKpis();
-      renderUpgrades();
-      persistLocal();
-      await maybeSave(true);
-    });
+    function hideToast(){ toast.style.display='none'; toast.innerHTML=''; }
 
     // —— Boot ——
-    function boot() {
+    function boot(){
       $('#username').textContent = username;
-      renderKpis();
-      renderUpgrades();
+      applyOffline();
+      renderKpis(); renderUpgrades(); renderQuests(); renderAchievements(); scheduleEvent();
       requestAnimationFrame(loop);
-      if (hasSupabase) { initSupabaseOnline(); }
+      if(hasSupabase){ initSupabaseOnline(); }
     }
 
     boot();
